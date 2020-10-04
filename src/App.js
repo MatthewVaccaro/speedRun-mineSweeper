@@ -7,6 +7,7 @@ function App() {
 	const [ rows, setRows ] = useState(10);
 	const [ cols, setCols ] = useState(10);
 	const [ grid, setGrid ] = useState(Array(rows).fill().map(() => Array(cols).fill(false)));
+	const [ gameOver, setGameOver ] = useState(false);
 
 	function arrayClone(arr) {
 		return JSON.parse(JSON.stringify(arr));
@@ -29,14 +30,13 @@ function App() {
 		setGrid(clone);
 	};
 
-	function countBombs(current, arr) {
+	function countBombs(clone, current, arr) {
 		var bombCount = 0;
-		let clone = arrayClone(grid);
 		arr.forEach((value) => {
 			const row = value[0];
 			const col = value[1];
 
-			if (grid[row][col] === 'bomb') {
+			if (clone[row][col] === 'bomb') {
 				bombCount++;
 			}
 		});
@@ -51,7 +51,7 @@ function App() {
 				if (grid[value[0]][value[1]] === false) {
 					console.log('crazy if -->', value);
 					// using REC run the count bombs and checker function. This should end once all spots have a number
-					// ! return countBombs([ value[0], value[1] ], checker(value[0], value[1])); // Doesn't work - creates infinite loop
+					return countBombs(clone, [ value[0], value[1] ], checker(clone, value[0], value[1]));
 				}
 			});
 		}
@@ -61,7 +61,8 @@ function App() {
 		}
 	}
 
-	function checker(row, col) {
+	function checker(clone, row, col) {
+		let newClone = arrayClone(clone);
 		const spots = [
 			[ row - 1, col - 1 ],
 			[ row - 1, col ],
@@ -74,6 +75,7 @@ function App() {
 		];
 
 		const trueSpots = [];
+		const possibleSpots = [];
 
 		spots.forEach((value) => {
 			const row = value[0];
@@ -82,22 +84,29 @@ function App() {
 				trueSpots.push(value);
 			}
 		});
-		return trueSpots;
+
+		trueSpots.forEach((value) => {
+			if (newClone[value[0]][value[1]] === false || newClone[value[0]][value[1]] === 'bomb') {
+				possibleSpots.push(value);
+			}
+		});
+
+		return possibleSpots;
 	}
 
 	function breakBox(row, col) {
 		let clone = arrayClone(grid);
 		if (clone[row][col] === 'bomb') {
-			console.log('YOU LOSE');
+			setGameOver(true);
 		}
 		else {
-			countBombs([ row, col ], checker(row, col));
+			countBombs(clone, [ row, col ], checker(clone, row, col));
 		}
 	}
 
 	return (
 		<div className="App">
-			<Grid grid={grid} rows={rows} cols={cols} breakBox={breakBox} />
+			<Grid grid={grid} rows={rows} cols={cols} breakBox={breakBox} gameOver={gameOver} />
 			<button
 				onClick={() => {
 					addBombs();
