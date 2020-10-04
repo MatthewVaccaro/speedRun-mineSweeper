@@ -1,0 +1,39 @@
+.App {
+	width: 552px;
+	margin: 200px auto;
+}
+
+.gridContainer {
+	display: flex;
+	flex-flow: wrap;
+}
+
+.box {
+	background: #555;
+	width: 50px;
+	height: 50px;
+	margin-right: 3px;
+	margin-bottom: 3px;
+	transition: all 0.5s;
+	cursor: pointer;
+}
+
+.box:hover {
+	background: black;
+}
+
+.on {
+	background: greenyellow;
+}
+
+.bomb {
+	background: red;
+}
+
+div {
+	color: white;
+	font-size: 18px;
+	margin-left: 2px;
+	margin-top: 2px;
+	font-weight: bold;
+}
