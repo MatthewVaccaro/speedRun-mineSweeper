@@ -1,3 +1,6 @@
+html {
+	background: #222;
+}
 .App {
 	width: 552px;
 	margin: 200px auto;
@@ -6,10 +9,14 @@
 .gridContainer {
 	display: flex;
 	flex-flow: wrap;
+	background: #333333;
+	border-radius: 10px;
+	opacity: 100%;
+	transition: all 0.5s;
 }
 
 .box {
-	background: #555;
+	background: #fafafa;
 	width: 50px;
 	height: 50px;
 	margin-right: 3px;
@@ -18,31 +25,83 @@
 	cursor: pointer;
 }
 
-.box:hover {
-	background: black;
+.hover:hover {
+	background: #5cf64a;
 }
 
-.on {
-	background: greenyellow;
+.flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .bomb {
-	background: red;
+	background: #ec0b43;
 }
 
 div {
-	color: white;
-	font-size: 18px;
 	margin-left: 2px;
 	margin-top: 2px;
+	padding: 0;
+}
+
+p {
+	color: white;
+	font-size: 23px;
+	font-weight: bold;
+}
+
+h2 {
+	color: white;
+	font-size: 60px;
 	font-weight: bold;
 	text-align: center;
+	position: absolute;
+	display: block;
+	top: 50px;
 }
 
-.clicked {
-	background: turquoise;
+.red {
+	color: #ec0b43;
 }
 
-.unClicked {
-	background-color: coral;
+.orange {
+	color: #eb5e28;
+}
+.green {
+	color: #5cf64a;
+}
+.yellow {
+	color: #efea5a;
+}
+.white {
+	color: white;
+}
+.bg {
+	background: #333;
+}
+
+.hidden {
+	opacity: 0%;
+}
+.waiting {
+	opacity: 20%;
+}
+
+button {
+	width: 100%;
+	padding: 22px;
+	border-radius: 6px;
+	background: #222;
+	border: solid 1px white;
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 25px;
+	transition: all 0.5s;
+}
+
+button:hover {
+	background: white;
+	color: #222;
 }

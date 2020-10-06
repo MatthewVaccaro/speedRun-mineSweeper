@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from './box';
 
-const Gird = ({ grid, cols, rows, breakBox, gameOver }) => {
+const Gird = ({ grid, cols, rows, breakBox, gameOver, start }) => {
 	const boxArray = [];
 
 	for (var R = 0; R < rows; R++) {
@@ -19,12 +19,13 @@ const Gird = ({ grid, cols, rows, breakBox, gameOver }) => {
 					bombClass={bombClass}
 					value={grid[R][C]}
 					gameOver={gameOver}
+					start={start}
 				/>
 			);
 		}
 	}
 
-	return <div className="gridContainer">{boxArray}</div>;
+	return <div className={`gridContainer ${start === false ? 'waiting' : ''}`}>{boxArray}</div>;
 };
 
 export default Gird;

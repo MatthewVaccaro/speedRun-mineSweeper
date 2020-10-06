@@ -7,6 +7,8 @@ function App() {
 	const [ rows, setRows ] = useState(10);
 	const [ cols, setCols ] = useState(10);
 	const [ grid, setGrid ] = useState(Array(rows).fill().map(() => Array(cols).fill(false)));
+	const [ start, setStart ] = useState(false);
+	const [ ending, setEnding ] = useState();
 	const [ gameOver, setGameOver ] = useState(false);
 
 	function arrayClone(arr) {
@@ -62,7 +64,6 @@ function App() {
 	}
 
 	function checker(clone, row, col) {
-		let newClone = arrayClone(clone);
 		const spots = [
 			[ row - 1, col - 1 ],
 			[ row - 1, col ],
@@ -86,7 +87,7 @@ function App() {
 		});
 
 		trueSpots.forEach((value) => {
-			if (newClone[value[0]][value[1]] === false || newClone[value[0]][value[1]] === 'bomb') {
+			if (clone[value[0]][value[1]] === false || clone[value[0]][value[1]] === 'bomb') {
 				possibleSpots.push(value);
 			}
 		});
@@ -94,25 +95,48 @@ function App() {
 		return possibleSpots;
 	}
 
+	function checkWin() {
+		let clone = arrayClone(grid);
+		let count = 0;
+		for (var R = 0; R < rows; R++) {
+			for (var C = 0; C < cols; C++) {
+				if (clone[R][C] === false) {
+					console.log(grid, 'tripped');
+					count++;
+				}
+			}
+		}
+		if (count === 1) {
+			setStart(false);
+			setGameOver(true);
+			setEnding('You Won!');
+		}
+	}
+
 	function breakBox(row, col) {
 		let clone = arrayClone(grid);
 		if (clone[row][col] === 'bomb') {
 			setGameOver(true);
+			setEnding('You Lost!');
 		}
 		else {
+			checkWin();
 			countBombs(clone, [ row, col ], checker(clone, row, col));
 		}
 	}
 
 	return (
 		<div className="App">
-			<Grid grid={grid} rows={rows} cols={cols} breakBox={breakBox} gameOver={gameOver} />
+			<h2> {ending ? ending : ''} </h2>
+			<Grid grid={grid} rows={rows} cols={cols} breakBox={breakBox} gameOver={gameOver} start={start} />
 			<button
+				className={start === true ? 'hidden' : ''}
 				onClick={() => {
+					setStart(true);
 					addBombs();
 				}}
 			>
-				Bombs
+				Start Game!
 			</button>
 		</div>
 	);
